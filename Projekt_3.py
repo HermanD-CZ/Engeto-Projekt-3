@@ -141,7 +141,12 @@ def write_data_to_csv( file_name: str) -> csv:
     """
     Selects the data and writes it to a file
     """
-    main_parsed_response = parse_server_response(get_server_response(sys.argv[1]))
+    try:
+        main_parsed_response = parse_server_response(get_server_response(sys.argv[1]))
+    except:
+        print("Cannot connect to the selected web address. Check if the entered URL is valid and check your internet connection")
+        quit()
+    
     url_list = get_links_for_municipalities(main_parsed_response)
     server_responses = asyncio.run(get_server_responses_async(url_list))
     munic_numbers = get_municipality_numbers(main_parsed_response)
